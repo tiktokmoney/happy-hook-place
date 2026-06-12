@@ -106,6 +106,117 @@ function FieldHorizon({ className = "" }: { className?: string }) {
   );
 }
 
+/* A little orange-and-green push mower chewing through tall grass.
+   The mower rolls right-to-left, blades spin, uncut grass on the left
+   is tall and wild; on the right it's a tidy stubble. */
+function MowerScene() {
+  return (
+    <div className="relative mx-auto -mb-2 max-w-6xl px-5 sm:px-8" aria-hidden>
+      <svg viewBox="0 0 1200 140" className="block h-24 w-full sm:h-32" preserveAspectRatio="xMidYEnd meet">
+        <defs>
+          <linearGradient id="ms-blade" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="oklch(0.82 0.13 140)" />
+            <stop offset="100%" stopColor="oklch(0.55 0.16 145)" />
+          </linearGradient>
+          <linearGradient id="ms-stub" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="oklch(0.75 0.14 142)" />
+            <stop offset="100%" stopColor="oklch(0.5 0.14 148)" />
+          </linearGradient>
+        </defs>
+
+        {/* uncut tall grass — left side */}
+        <g>
+          {Array.from({ length: 90 }).map((_, i) => {
+            const x = i * 7 + 2;
+            const h = 22 + ((i * 13) % 18);
+            const sway = (i % 5) - 2;
+            return (
+              <path
+                key={`tall-${i}`}
+                d={`M${x},130 C${x + sway},${130 - h * 0.6} ${x - sway},${130 - h * 0.85} ${x},${130 - h}`}
+                stroke="url(#ms-blade)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                fill="none"
+              />
+            );
+          })}
+        </g>
+
+        {/* freshly cut clippings flying out of the mower */}
+        <g className="rl-clippings">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <circle key={i} cx={640 + i * 6} cy={110 - (i % 4) * 6} r="1.6" fill="oklch(0.6 0.18 145)" opacity={0.8 - i * 0.05} />
+          ))}
+        </g>
+
+        {/* stubble — right side */}
+        <g>
+          {Array.from({ length: 80 }).map((_, i) => {
+            const x = 640 + i * 7;
+            const h = 5 + ((i * 11) % 4);
+            return (
+              <line key={`stub-${i}`} x1={x} y1={130} x2={x} y2={130 - h} stroke="url(#ms-stub)" strokeWidth="1.6" strokeLinecap="round" />
+            );
+          })}
+        </g>
+
+        {/* ground line */}
+        <line x1="0" y1="131" x2="1200" y2="131" stroke="oklch(0.45 0.06 80)" strokeWidth="1" opacity="0.4" />
+
+        {/* the mower — sits at x ~ 560-650 */}
+        <g className="rl-mower">
+          {/* handle */}
+          <path d="M560,46 L640,98" stroke="oklch(0.25 0.02 250)" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M540,42 L580,42" stroke="oklch(0.25 0.02 250)" strokeWidth="5" strokeLinecap="round" fill="none" />
+          {/* grip */}
+          <rect x="535" y="36" width="48" height="12" rx="6" fill="oklch(0.25 0.02 250)" />
+
+          {/* body — orange shell echoing the logo sun */}
+          <path
+            d="M598,128 L598,108 Q598,86 622,86 L692,86 Q716,86 716,108 L716,128 Z"
+            fill="oklch(0.7 0.19 50)"
+          />
+          {/* darker bottom band */}
+          <rect x="598" y="118" width="118" height="10" fill="oklch(0.55 0.18 45)" />
+          {/* deck stripe */}
+          <rect x="610" y="96" width="94" height="4" rx="2" fill="oklch(0.85 0.14 78)" />
+          {/* leaf badge */}
+          <circle cx="657" cy="106" r="9" fill="oklch(0.45 0.13 150)" />
+          <path d="M653,106 Q657,98 661,106 Q657,114 653,106 Z" fill="oklch(0.82 0.13 140)" />
+
+          {/* engine top */}
+          <rect x="630" y="74" width="40" height="14" rx="3" fill="oklch(0.3 0.02 250)" />
+          <rect x="664" y="68" width="6" height="10" fill="oklch(0.25 0.02 250)" />
+
+          {/* wheels */}
+          <g className="rl-wheel">
+            <circle cx="612" cy="126" r="11" fill="oklch(0.2 0.02 250)" />
+            <circle cx="612" cy="126" r="4" fill="oklch(0.85 0.14 78)" />
+            <line x1="612" y1="118" x2="612" y2="134" stroke="oklch(0.85 0.14 78)" strokeWidth="1.5" />
+            <line x1="604" y1="126" x2="620" y2="126" stroke="oklch(0.85 0.14 78)" strokeWidth="1.5" />
+          </g>
+          <g className="rl-wheel">
+            <circle cx="702" cy="126" r="11" fill="oklch(0.2 0.02 250)" />
+            <circle cx="702" cy="126" r="4" fill="oklch(0.85 0.14 78)" />
+            <line x1="702" y1="118" x2="702" y2="134" stroke="oklch(0.85 0.14 78)" strokeWidth="1.5" />
+            <line x1="694" y1="126" x2="710" y2="126" stroke="oklch(0.85 0.14 78)" strokeWidth="1.5" />
+          </g>
+        </g>
+
+        <style>{`
+          .rl-mower { transform-origin: center; animation: rl-bob 0.6s ease-in-out infinite; }
+          .rl-wheel { transform-box: fill-box; transform-origin: center; animation: rl-spin 0.8s linear infinite; }
+          .rl-clippings { animation: rl-fly 0.9s ease-out infinite; transform-origin: 640px 110px; }
+          @keyframes rl-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+          @keyframes rl-spin { to { transform: rotate(360deg); } }
+          @keyframes rl-fly { 0% { transform: translate(0,0); opacity: 1; } 100% { transform: translate(40px,-10px); opacity: 0; } }
+          @media (prefers-reduced-motion: reduce) { .rl-mower, .rl-wheel, .rl-clippings { animation: none; } }
+        `}</style>
+      </svg>
+    </div>
+  );
+
 function Hero() {
   return (
     <section id="home" className="relative overflow-hidden">
@@ -159,6 +270,7 @@ function Hero() {
           </div>
         </div>
       </div>
+      <MowerScene />
       <FieldHorizon className="h-16 w-full sm:h-24" />
     </section>
   );
