@@ -508,6 +508,183 @@ function ConsentBox({ checked, onChange, title, body }: { checked: boolean; onCh
   );
 }
 
+function TrustBand() {
+  const stats = [
+    { v: "5.0★", l: "Google rating" },
+    { v: "100%", l: "Locally owned" },
+    { v: "Same-day", l: "Quotes" },
+    { v: "Free", l: "Estimates" },
+  ];
+  return (
+    <section className="border-y border-border bg-leaf-deep py-8 text-cream">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-5 sm:grid-cols-4 sm:px-8">
+        {stats.map((s) => (
+          <div key={s.l} className="text-center">
+            <div className="font-display text-3xl sm:text-4xl text-sun">{s.v}</div>
+            <div className="mt-1 text-xs font-semibold uppercase tracking-widest text-cream/80">{s.l}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Process() {
+  const steps = [
+    { n: "01", t: "Reach out", d: "Send a quick message or give us a call — tell us about your yard." },
+    { n: "02", t: "Free quote", d: "We'll get back same-day with fair, upfront pricing. No surprises." },
+    { n: "03", t: "We mow", d: "Show up on schedule, do the small details right, leave it looking great." },
+  ];
+  return (
+    <section className="relative py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionHeader eyebrow="How it works" title="Three steps. No headaches." />
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {steps.map((s, i) => (
+            <div key={s.n} className="relative rounded-2xl border border-border bg-card p-7">
+              <div className="font-display text-5xl text-sun/80">{s.n}</div>
+              <h3 className="mt-3 text-xl">{s.t}</h3>
+              <p className="mt-2 text-sm text-ink/65">{s.d}</p>
+              {i < steps.length - 1 && (
+                <div className="absolute -right-3 top-1/2 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-leaf-deep text-cream md:flex">→</div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 flex justify-center">
+          <a href="#contact" className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
+            Start with a free quote
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const reviews = [
+    { q: "They left our yard looking better than it has in years. Friendly, on-time, and reasonably priced.", a: "Sarah K.", role: "Kingston, TN" },
+    { q: "Reliable every single week. Edges are crisp and they always clean up after. Couldn't ask for more.", a: "Mike R.", role: "Roane County" },
+    { q: "Easy to work with and clearly takes pride in the work. Highly recommend Rivenbark Lawncare.", a: "Dana P.", role: "Kingston, TN" },
+  ];
+  return (
+    <section className="relative bg-secondary/60 py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionHeader eyebrow="What folks say" title="5.0★ from neighbors who'd know." />
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {reviews.map((r) => (
+            <figure key={r.a} className="relative rounded-2xl border border-border bg-card p-7 shadow-sm">
+              <div className="text-sun-deep">{"★★★★★"}</div>
+              <blockquote className="mt-4 text-ink/80">"{r.q}"</blockquote>
+              <figcaption className="mt-5 flex items-center gap-3 border-t border-border pt-4">
+                <div className="grid h-10 w-10 place-items-center rounded-full bg-leaf-deep font-display text-cream">
+                  {r.a[0]}
+                </div>
+                <div>
+                  <div className="font-semibold text-ink">{r.a}</div>
+                  <div className="text-xs text-ink/55">{r.role}</div>
+                </div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ServiceArea() {
+  const cities = ["Kingston", "Harriman", "Rockwood", "Lenoir City", "Oak Ridge", "Loudon", "Farragut", "Oliver Springs"];
+  return (
+    <section className="relative py-24">
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[1fr_1.2fr] md:items-center">
+        <div>
+          <SectionHeader eyebrow="Service area" title="Proudly local to Kingston & nearby." align="left" />
+          <p className="mt-6 text-lg text-ink/70">
+            Based at 309 Kingwood St in Kingston, TN — we serve Kingston and the surrounding Roane County communities. Not sure if you're in range? Just ask.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="tel:+18652500515" className="rounded-full bg-leaf-deep px-5 py-2.5 font-bold text-cream transition hover:bg-leaf">
+              Call (865) 250-0515
+            </a>
+            <a href="#contact" className="rounded-full border-2 border-ink/10 bg-white px-5 py-2.5 font-bold text-ink transition hover:border-ink/30">
+              Check my address
+            </a>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {cities.map((c) => (
+            <div key={c} className="rounded-xl border border-border bg-card px-4 py-3 text-center font-semibold text-ink/80 transition hover:border-leaf hover:text-leaf-deep">
+              {c}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const items = [
+    { q: "What areas do you serve?", a: "Kingston, TN and nearby Roane County communities — Harriman, Rockwood, Lenoir City, and more. Ask if you're unsure." },
+    { q: "How do I get a quote?", a: "Call (865) 250-0515 or fill out the contact form. Most quotes come back the same day, completely free." },
+    { q: "Do you offer weekly service?", a: "Yes — weekly, bi-weekly, or one-time visits. We'll set a schedule that fits your yard and your budget." },
+    { q: "What's included in a typical visit?", a: "Mowing, line trimming around obstacles, edging walks and driveways, and blowing off hard surfaces when we leave." },
+    { q: "How do I pay?", a: "We accept cash, check, and most digital payment options. Talk through what works best when you book." },
+  ];
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <section className="relative bg-secondary/60 py-24">
+      <div className="mx-auto max-w-3xl px-5 sm:px-8">
+        <SectionHeader eyebrow="Questions" title="Good to know." />
+        <div className="mt-10 space-y-3">
+          {items.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={it.q} className="overflow-hidden rounded-2xl border border-border bg-card">
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-display text-lg text-ink"
+                >
+                  <span>{it.q}</span>
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full bg-leaf-deep text-cream transition ${isOpen ? "rotate-45" : ""}`}>+</span>
+                </button>
+                {isOpen && <div className="px-5 pb-5 text-ink/70">{it.a}</div>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CTABand() {
+  return (
+    <section className="relative overflow-hidden bg-ink py-20 text-cream">
+      <div className="sun-glow absolute inset-0 opacity-50" />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 sm:px-8 md:grid-cols-[1.4fr_1fr]">
+        <div>
+          <h2 className="text-4xl text-cream sm:text-5xl">
+            Ready for a yard you're <span className="text-sun">proud of?</span>
+          </h2>
+          <p className="mt-4 max-w-xl text-cream/75">
+            Free, same-day quotes. Friendly local crew. No long-term contracts — just a great looking lawn.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row md:flex-col md:items-end">
+          <a href="#contact" className="rounded-full bg-sun px-6 py-3 text-center font-bold text-ink shadow-md transition hover:bg-sun-deep">
+            Request a Free Quote
+          </a>
+          <a href="tel:+18652500515" className="rounded-full border-2 border-cream/30 px-6 py-3 text-center font-bold text-cream transition hover:bg-cream/10">
+            Call (865) 250-0515
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className="border-t border-border bg-secondary/60 py-10">
