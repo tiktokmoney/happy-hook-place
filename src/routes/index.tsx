@@ -291,7 +291,7 @@ function Services() {
     { t: "Cleanup", d: "Leaf, stick, and debris cleanup that leaves your lawn ready to enjoy.", i: "🍃" },
   ];
   return (
-    <section id="services" className="relative bg-secondary/60 py-24">
+    <section id="services" className="relative bg-secondary/60 py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="What we do" title="Services that keep your yard sharp" />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -313,7 +313,7 @@ function Services() {
 
 function About() {
   return (
-    <section id="about" className="relative py-24">
+    <section id="about" className="relative py-20">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-2 md:items-center">
         <div className="relative">
           <div className="overflow-hidden rounded-3xl border-4 border-white shadow-xl">
@@ -345,7 +345,7 @@ function About() {
 function Work() {
   const photos = [lawn1, lawn4, lawn3, lawn2];
   return (
-    <section id="work" className="relative bg-ink py-24 text-cream">
+    <section id="work" className="relative bg-ink py-20 text-cream">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="Our work" title="Real yards. Real results." invert />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -390,7 +390,7 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="relative overflow-hidden py-24">
+    <section id="contact" className="relative overflow-hidden py-20">
       <FieldHorizon className="absolute inset-x-0 top-0 h-16 w-full rotate-180 opacity-60" />
       <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[1fr_1.2fr]">
         <div>
@@ -536,7 +536,7 @@ function Process() {
     { n: "03", t: "We mow", d: "Show up on schedule, do the small details right, leave it looking great." },
   ];
   return (
-    <section className="relative py-24">
+    <section className="relative bg-secondary/60 pt-4 pb-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="How it works" title="Three steps. No headaches." />
         <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -568,7 +568,7 @@ function Testimonials() {
     { q: "Easy to work with and clearly takes pride in the work. Highly recommend Rivenbark Lawncare.", a: "Dana P.", role: "Kingston, TN" },
   ];
   return (
-    <section className="relative bg-secondary/60 py-24">
+    <section className="relative bg-secondary/60 py-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="What folks say" title="5.0★ from neighbors who'd know." />
         <div className="mt-12 grid gap-5 md:grid-cols-3">
@@ -596,7 +596,7 @@ function Testimonials() {
 function ServiceArea() {
   const cities = ["Kingston", "Harriman", "Rockwood", "Lenoir City", "Oak Ridge", "Loudon", "Farragut", "Oliver Springs"];
   return (
-    <section className="relative py-24">
+    <section className="relative py-20">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[1fr_1.2fr] md:items-center">
         <div>
           <SectionHeader eyebrow="Service area" title="Proudly local to Kingston & nearby." align="left" />
@@ -634,7 +634,7 @@ function FAQ() {
   ];
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="relative bg-secondary/60 py-24">
+    <section className="relative pt-4 pb-20">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <SectionHeader eyebrow="Questions" title="Good to know." />
         <div className="mt-10 space-y-3">
