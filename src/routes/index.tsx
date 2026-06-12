@@ -36,11 +36,11 @@ function Nav() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
-      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3 sm:px-8">
-        <a href="#home" className="flex min-w-0 items-center gap-2">
-          <img src={logoAsset.url} alt="Rivenbark Lawncare" className="h-11 w-auto shrink-0 sm:h-12" />
+      <div className="mx-auto grid max-w-6xl grid-cols-[auto_auto] items-center gap-4 px-5 py-3 sm:px-8 md:grid-cols-[auto_1fr_auto] md:gap-8 md:py-4">
+        <a href="#home" className="flex items-center">
+          <img src={logoAsset.url} alt="Rivenbark Lawncare" className="h-14 w-auto sm:h-16 md:h-20" />
         </a>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center justify-center gap-1 md:flex lg:gap-2">
           {NAV.map((n) => (
             <a
               key={n.id}
@@ -50,16 +50,16 @@ function Nav() {
               {n.label}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="ml-2 rounded-full bg-leaf-deep px-5 py-2 text-sm font-bold text-cream shadow-sm transition hover:bg-leaf"
-          >
-            Get a Quote
-          </a>
         </nav>
+        <a
+          href="#contact"
+          className="hidden rounded-full bg-leaf-deep px-5 py-2.5 text-sm font-bold text-cream shadow-sm transition hover:bg-leaf md:inline-flex"
+        >
+          Get a Quote
+        </a>
         <button
           onClick={() => setOpen((o) => !o)}
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border"
+          className="relative justify-self-end md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border"
           aria-label="Toggle menu"
         >
           <span className="block h-0.5 w-5 bg-ink before:absolute before:h-0.5 before:w-5 before:-translate-y-1.5 before:bg-ink after:absolute after:h-0.5 after:w-5 after:translate-y-1.5 after:bg-ink" />
