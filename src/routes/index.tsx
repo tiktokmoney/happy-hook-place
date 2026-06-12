@@ -23,9 +23,15 @@ function Home() {
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
+      <TrustBand />
       <Services />
+      <Process />
       <About />
+      <Testimonials />
       <Work />
+      <ServiceArea />
+      <FAQ />
+      <CTABand />
       <Contact />
       <Footer />
     </div>
