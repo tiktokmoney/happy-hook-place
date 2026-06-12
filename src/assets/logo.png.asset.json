@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "7ea22436-abf8-4441-9223-cf1763380931",
+  "asset_id": "dc596a30-95f4-4db1-aa1f-a9c59cb14b63",
   "project_id": "7758c734-a798-4d0a-957e-5699b7aaa33d",
-  "url": "/__l5e/assets-v1/7ea22436-abf8-4441-9223-cf1763380931/logo.png",
-  "r2_key": "a/v1/7758c734-a798-4d0a-957e-5699b7aaa33d/7ea22436-abf8-4441-9223-cf1763380931/logo.png",
-  "original_filename": "logo.png",
-  "size": 165998,
+  "url": "/__l5e/assets-v1/dc596a30-95f4-4db1-aa1f-a9c59cb14b63/logo-transparent.png",
+  "r2_key": "a/v1/7758c734-a798-4d0a-957e-5699b7aaa33d/dc596a30-95f4-4db1-aa1f-a9c59cb14b63/logo-transparent.png",
+  "original_filename": "logo-transparent.png",
+  "size": 133056,
   "content_type": "image/png",
-  "created_at": "2026-06-12T01:20:03Z"
+  "created_at": "2026-06-12T01:24:51Z"
 }
