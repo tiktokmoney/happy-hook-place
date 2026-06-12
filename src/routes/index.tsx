@@ -216,6 +216,7 @@ function MowerScene() {
       </svg>
     </div>
   );
+}
 
 function Hero() {
   return (
