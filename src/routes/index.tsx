@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import logoAsset from "@/assets/logo.png.asset.json";
 import lawn1 from "@/assets/lawn1.png.asset.json";
 import lawn2 from "@/assets/lawn2.png.asset.json";
@@ -10,6 +11,10 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+const QuoteDialogCtx = createContext<{ open: () => void }>({ open: () => {} });
+const useQuoteDialog = () => useContext(QuoteDialogCtx);
+
+
 const NAV = [
   { id: "home", label: "Home" },
   { id: "services", label: "Services" },
@@ -19,31 +24,54 @@ const NAV = [
 ];
 
 function Home() {
+  const [quoteOpen, setQuoteOpen] = useState(false);
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <Hero />
-      <TrustBand />
-      <Services />
-      <Process />
-      <About />
-      <Testimonials />
-      <Work />
-      <ServiceArea />
-      <FAQ />
-      <CTABand />
-      <Contact />
-      <Footer />
-    </div>
+    <QuoteDialogCtx.Provider value={{ open: () => setQuoteOpen(true) }}>
+      <div className="min-h-screen bg-background text-foreground">
+        <Nav />
+        <Hero />
+        <TrustBand />
+        <Services />
+        <Process />
+        <About />
+        <Testimonials />
+        <Work />
+        <ServiceArea />
+        <FAQ />
+        <CTABand />
+        <Contact />
+        <Footer />
+      </div>
+      <Dialog open={quoteOpen} onOpenChange={setQuoteOpen}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-leaf-deep">Request a Free Quote</DialogTitle>
+            <DialogDescription>
+              Tell us a bit about your yard — we usually reply the same day.
+            </DialogDescription>
+          </DialogHeader>
+          <QuoteForm onDone={() => setTimeout(() => setQuoteOpen(false), 1800)} />
+        </DialogContent>
+      </Dialog>
+    </QuoteDialogCtx.Provider>
   );
 }
 
+
 function Nav() {
   const [open, setOpen] = useState(false);
+  const { open: openQuote } = useQuoteDialog();
+  const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", `#${id}`);
+  };
   return (
+
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="mx-auto grid max-w-6xl grid-cols-[auto_auto] items-center gap-4 px-5 py-3 sm:px-8 md:grid-cols-[auto_1fr_auto] md:gap-8 md:py-4">
-        <a href="#home" className="flex items-center">
+        <a href="#home" onClick={(e) => onLinkClick(e, "home")} className="flex items-center">
           <img src={logoAsset.url} alt="Rivenbark Lawncare" className="h-14 w-auto sm:h-16 md:h-20" />
         </a>
         <nav className="hidden items-center justify-center gap-1 md:flex lg:gap-2">
@@ -51,18 +79,20 @@ function Nav() {
             <a
               key={n.id}
               href={`#${n.id}`}
+              onClick={(e) => onLinkClick(e, n.id)}
               className="rounded-full px-4 py-2 text-sm font-semibold text-ink/75 transition hover:bg-secondary hover:text-leaf-deep"
             >
               {n.label}
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
+        <button
+          type="button"
+          onClick={openQuote}
           className="hidden rounded-full bg-leaf-deep px-5 py-2.5 text-sm font-bold text-cream shadow-sm transition hover:bg-leaf md:inline-flex"
         >
           Get a Quote
-        </a>
+        </button>
         <button
           onClick={() => setOpen((o) => !o)}
           className="relative justify-self-end md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border"
@@ -78,15 +108,23 @@ function Nav() {
               <a
                 key={n.id}
                 href={`#${n.id}`}
-                onClick={() => setOpen(false)}
+                onClick={(e) => onLinkClick(e, n.id)}
                 className="rounded-lg px-3 py-3 text-sm font-semibold text-ink/80 hover:bg-secondary"
               >
                 {n.label}
               </a>
             ))}
+            <button
+              type="button"
+              onClick={() => { setOpen(false); openQuote(); }}
+              className="mt-2 rounded-lg bg-leaf-deep px-3 py-3 text-left text-sm font-bold text-cream"
+            >
+              Get a Quote
+            </button>
           </div>
         </nav>
       )}
+
     </header>
   );
 }
@@ -225,7 +263,9 @@ function MowerScene() {
 }
 
 function Hero() {
+  const { open: openQuote } = useQuoteDialog();
   return (
+
     <section id="home" className="relative overflow-hidden">
       <div className="sun-glow absolute inset-0 -z-0" />
       <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pb-24 pt-16 sm:px-8 md:grid-cols-[1.1fr_1fr] md:pt-24">
@@ -248,9 +288,10 @@ function Hero() {
             Rivenbark Lawncare provides professional mowing, weeding, and lawn care. Our experts make sure your lawn is beautifully manicured — a well-kept, attractive outdoor space to enjoy.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
+            <button type="button" onClick={openQuote} className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
               Request a Free Quote
-            </a>
+            </button>
+
             <a href="tel:+18652500515" className="rounded-full border-2 border-ink/10 bg-white px-6 py-3 font-bold text-ink transition hover:border-ink/30">
               (865) 250-0515
             </a>
@@ -375,20 +416,6 @@ function SectionHeader({ eyebrow, title, align = "center", invert = false }: { e
 }
 
 function Contact() {
-  const [method, setMethod] = useState<"email" | "text" | "call">("email");
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", consentText: false, consentCall: false });
-
-  const needsTextConsent = method === "text";
-  const needsCallConsent = method === "call";
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (needsTextConsent && !form.consentText) return;
-    if (needsCallConsent && !form.consentCall) return;
-    setSubmitted(true);
-  };
-
   return (
     <section id="contact" className="relative overflow-hidden py-20">
       <FieldHorizon className="absolute inset-x-0 top-0 h-16 w-full rotate-180 opacity-60" />
@@ -414,75 +441,99 @@ function Contact() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
-          {submitted ? (
-            <div className="py-12 text-center">
-              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-leaf-deep text-3xl text-cream">✓</div>
-              <h3 className="mt-4 text-2xl">Thanks — we got it!</h3>
-              <p className="mt-2 text-ink/65">We'll reach out via your preferred method shortly.</p>
-            </div>
-          ) : (
-            <>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Name" required>
-                  <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" placeholder="Jane Doe" />
-                </Field>
-                <Field label="Email" required={method === "email"}>
-                  <input type="email" required={method === "email"} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input" placeholder="you@email.com" />
-                </Field>
-                <Field label="Phone" required={method !== "email"}>
-                  <input type="tel" required={method !== "email"} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="(865) 555-0123" />
-                </Field>
-                <Field label="Preferred contact">
-                  <div className="flex gap-2">
-                    {(["email", "text", "call"] as const).map((m) => (
-                      <button
-                        type="button"
-                        key={m}
-                        onClick={() => setMethod(m)}
-                        className={`flex-1 rounded-lg border px-3 py-2 text-sm font-semibold capitalize transition ${
-                          method === m ? "border-leaf-deep bg-leaf-deep text-cream" : "border-border bg-background hover:border-leaf"
-                        }`}
-                      >
-                        {m}
-                      </button>
-                    ))}
-                  </div>
-                </Field>
-              </div>
-
-              <Field label="Tell us about your yard">
-                <textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input" placeholder="Lot size, what you need, anything special…" />
-              </Field>
-
-              {needsTextConsent && (
-                <ConsentBox
-                  checked={form.consentText}
-                  onChange={(v) => setForm({ ...form, consentText: v })}
-                  title="Permission to text"
-                  body="By checking this box, I expressly consent to receive SMS text messages from Rivenbark Lawncare at the phone number provided, including messages sent by automated means. Consent is not a condition of any purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time, or HELP for help."
-                />
-              )}
-              {needsCallConsent && (
-                <ConsentBox
-                  checked={form.consentCall}
-                  onChange={(v) => setForm({ ...form, consentCall: v })}
-                  title="Permission to call"
-                  body="By checking this box, I expressly consent to receive telephone calls from Rivenbark Lawncare at the phone number provided, including calls placed using an automatic telephone dialing system or an artificial or prerecorded voice. Consent is not a condition of any purchase. I understand I may revoke this consent at any time by asking to be removed from the call list."
-                />
-              )}
-
-              <button type="submit" className="mt-6 w-full rounded-full bg-leaf-deep px-6 py-4 font-bold text-cream shadow-md transition hover:bg-leaf">
-                Send Message
-              </button>
-              <p className="mt-3 text-center text-xs text-ink/55">We never share your information. Used only to reply to your request.</p>
-            </>
-          )}
-        </form>
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
+          <QuoteForm />
+        </div>
       </div>
     </section>
   );
 }
+
+function QuoteForm({ onDone }: { onDone?: () => void } = {}) {
+  const [method, setMethod] = useState<"email" | "text" | "call">("email");
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", consentText: false, consentCall: false });
+
+  const needsTextConsent = method === "text";
+  const needsCallConsent = method === "call";
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (needsTextConsent && !form.consentText) return;
+    if (needsCallConsent && !form.consentCall) return;
+    setSubmitted(true);
+    onDone?.();
+  };
+
+  if (submitted) {
+    return (
+      <div className="py-12 text-center">
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-leaf-deep text-3xl text-cream">✓</div>
+        <h3 className="mt-4 text-2xl">Thanks — we got it!</h3>
+        <p className="mt-2 text-ink/65">We'll reach out via your preferred method shortly.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Name" required>
+          <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" placeholder="Jane Doe" />
+        </Field>
+        <Field label="Email" required={method === "email"}>
+          <input type="email" required={method === "email"} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input" placeholder="you@email.com" />
+        </Field>
+        <Field label="Phone" required={method !== "email"}>
+          <input type="tel" required={method !== "email"} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="(865) 555-0123" />
+        </Field>
+        <Field label="Preferred contact">
+          <div className="flex gap-2">
+            {(["email", "text", "call"] as const).map((m) => (
+              <button
+                type="button"
+                key={m}
+                onClick={() => setMethod(m)}
+                className={`flex-1 rounded-lg border px-3 py-2 text-sm font-semibold capitalize transition ${
+                  method === m ? "border-leaf-deep bg-leaf-deep text-cream" : "border-border bg-background hover:border-leaf"
+                }`}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+        </Field>
+      </div>
+
+      <Field label="Tell us about your yard">
+        <textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input" placeholder="Lot size, what you need, anything special…" />
+      </Field>
+
+      {needsTextConsent && (
+        <ConsentBox
+          checked={form.consentText}
+          onChange={(v) => setForm({ ...form, consentText: v })}
+          title="Permission to text"
+          body="By checking this box, I expressly consent to receive SMS text messages from Rivenbark Lawncare at the phone number provided, including messages sent by automated means. Consent is not a condition of any purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time, or HELP for help."
+        />
+      )}
+      {needsCallConsent && (
+        <ConsentBox
+          checked={form.consentCall}
+          onChange={(v) => setForm({ ...form, consentCall: v })}
+          title="Permission to call"
+          body="By checking this box, I expressly consent to receive telephone calls from Rivenbark Lawncare at the phone number provided, including calls placed using an automatic telephone dialing system or an artificial or prerecorded voice. Consent is not a condition of any purchase. I understand I may revoke this consent at any time by asking to be removed from the call list."
+        />
+      )}
+
+      <button type="submit" className="mt-6 w-full rounded-full bg-leaf-deep px-6 py-4 font-bold text-cream shadow-md transition hover:bg-leaf">
+        Send Message
+      </button>
+      <p className="mt-3 text-center text-xs text-ink/55">We never share your information. Used only to reply to your request.</p>
+    </form>
+  );
+}
+
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
@@ -530,12 +581,14 @@ function TrustBand() {
 }
 
 function Process() {
+  const { open: openQuote } = useQuoteDialog();
   const steps = [
     { n: "01", t: "Reach out", d: "Send a quick message or give us a call — tell us about your yard." },
     { n: "02", t: "Free quote", d: "We'll get back same-day with fair, upfront pricing. No surprises." },
     { n: "03", t: "We mow", d: "Show up on schedule, do the small details right, leave it looking great." },
   ];
   return (
+
     <section className="relative bg-secondary/60 pt-4 pb-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="How it works" title="Three steps. No headaches." />
@@ -552,9 +605,10 @@ function Process() {
           ))}
         </div>
         <div className="mt-10 flex justify-center">
-          <a href="#contact" className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
+          <button type="button" onClick={openQuote} className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
             Start with a free quote
-          </a>
+          </button>
+
         </div>
       </div>
     </section>
@@ -660,6 +714,7 @@ function FAQ() {
 }
 
 function CTABand() {
+  const { open: openQuote } = useQuoteDialog();
   return (
     <section className="relative overflow-hidden bg-ink py-20 text-cream">
       <div className="sun-glow absolute inset-0 opacity-50" />
@@ -673,9 +728,10 @@ function CTABand() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row md:flex-col md:items-end">
-          <a href="#contact" className="rounded-full bg-sun px-6 py-3 text-center font-bold text-ink shadow-md transition hover:bg-sun-deep">
+          <button type="button" onClick={openQuote} className="rounded-full bg-sun px-6 py-3 text-center font-bold text-ink shadow-md transition hover:bg-sun-deep">
             Request a Free Quote
-          </a>
+          </button>
+
           <a href="tel:+18652500515" className="rounded-full border-2 border-cream/30 px-6 py-3 text-center font-bold text-cream transition hover:bg-cream/10">
             Call (865) 250-0515
           </a>
