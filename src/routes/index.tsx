@@ -24,24 +24,39 @@ const NAV = [
 ];
 
 function Home() {
+  const [quoteOpen, setQuoteOpen] = useState(false);
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <Hero />
-      <TrustBand />
-      <Services />
-      <Process />
-      <About />
-      <Testimonials />
-      <Work />
-      <ServiceArea />
-      <FAQ />
-      <CTABand />
-      <Contact />
-      <Footer />
-    </div>
+    <QuoteDialogCtx.Provider value={{ open: () => setQuoteOpen(true) }}>
+      <div className="min-h-screen bg-background text-foreground">
+        <Nav />
+        <Hero />
+        <TrustBand />
+        <Services />
+        <Process />
+        <About />
+        <Testimonials />
+        <Work />
+        <ServiceArea />
+        <FAQ />
+        <CTABand />
+        <Contact />
+        <Footer />
+      </div>
+      <Dialog open={quoteOpen} onOpenChange={setQuoteOpen}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-leaf-deep">Request a Free Quote</DialogTitle>
+            <DialogDescription>
+              Tell us a bit about your yard — we usually reply the same day.
+            </DialogDescription>
+          </DialogHeader>
+          <QuoteForm onDone={() => setTimeout(() => setQuoteOpen(false), 1800)} />
+        </DialogContent>
+      </Dialog>
+    </QuoteDialogCtx.Provider>
   );
 }
+
 
 function Nav() {
   const [open, setOpen] = useState(false);
