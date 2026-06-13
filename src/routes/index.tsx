@@ -263,7 +263,9 @@ function MowerScene() {
 }
 
 function Hero() {
+  const { open: openQuote } = useQuoteDialog();
   return (
+
     <section id="home" className="relative overflow-hidden">
       <div className="sun-glow absolute inset-0 -z-0" />
       <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pb-24 pt-16 sm:px-8 md:grid-cols-[1.1fr_1fr] md:pt-24">
