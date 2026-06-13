@@ -71,7 +71,7 @@ function Nav() {
 
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="mx-auto grid max-w-6xl grid-cols-[auto_auto] items-center gap-4 px-5 py-3 sm:px-8 md:grid-cols-[auto_1fr_auto] md:gap-8 md:py-4">
-        <a href="#home" className="flex items-center">
+        <a href="#home" onClick={(e) => onLinkClick(e, "home")} className="flex items-center">
           <img src={logoAsset.url} alt="Rivenbark Lawncare" className="h-14 w-auto sm:h-16 md:h-20" />
         </a>
         <nav className="hidden items-center justify-center gap-1 md:flex lg:gap-2">
@@ -79,18 +79,20 @@ function Nav() {
             <a
               key={n.id}
               href={`#${n.id}`}
+              onClick={(e) => onLinkClick(e, n.id)}
               className="rounded-full px-4 py-2 text-sm font-semibold text-ink/75 transition hover:bg-secondary hover:text-leaf-deep"
             >
               {n.label}
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
+        <button
+          type="button"
+          onClick={openQuote}
           className="hidden rounded-full bg-leaf-deep px-5 py-2.5 text-sm font-bold text-cream shadow-sm transition hover:bg-leaf md:inline-flex"
         >
           Get a Quote
-        </a>
+        </button>
         <button
           onClick={() => setOpen((o) => !o)}
           className="relative justify-self-end md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border"
@@ -106,15 +108,23 @@ function Nav() {
               <a
                 key={n.id}
                 href={`#${n.id}`}
-                onClick={() => setOpen(false)}
+                onClick={(e) => onLinkClick(e, n.id)}
                 className="rounded-lg px-3 py-3 text-sm font-semibold text-ink/80 hover:bg-secondary"
               >
                 {n.label}
               </a>
             ))}
+            <button
+              type="button"
+              onClick={() => { setOpen(false); openQuote(); }}
+              className="mt-2 rounded-lg bg-leaf-deep px-3 py-3 text-left text-sm font-bold text-cream"
+            >
+              Get a Quote
+            </button>
           </div>
         </nav>
       )}
+
     </header>
   );
 }
