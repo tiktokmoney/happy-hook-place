@@ -605,9 +605,10 @@ function Process() {
           ))}
         </div>
         <div className="mt-10 flex justify-center">
-          <a href="#contact" className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
+          <button type="button" onClick={openQuote} className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
             Start with a free quote
-          </a>
+          </button>
+
         </div>
       </div>
     </section>
