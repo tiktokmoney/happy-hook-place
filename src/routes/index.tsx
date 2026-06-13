@@ -416,20 +416,6 @@ function SectionHeader({ eyebrow, title, align = "center", invert = false }: { e
 }
 
 function Contact() {
-  const [method, setMethod] = useState<"email" | "text" | "call">("email");
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", consentText: false, consentCall: false });
-
-  const needsTextConsent = method === "text";
-  const needsCallConsent = method === "call";
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (needsTextConsent && !form.consentText) return;
-    if (needsCallConsent && !form.consentCall) return;
-    setSubmitted(true);
-  };
-
   return (
     <section id="contact" className="relative overflow-hidden py-20">
       <FieldHorizon className="absolute inset-x-0 top-0 h-16 w-full rotate-180 opacity-60" />
@@ -455,75 +441,99 @@ function Contact() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
-          {submitted ? (
-            <div className="py-12 text-center">
-              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-leaf-deep text-3xl text-cream">✓</div>
-              <h3 className="mt-4 text-2xl">Thanks — we got it!</h3>
-              <p className="mt-2 text-ink/65">We'll reach out via your preferred method shortly.</p>
-            </div>
-          ) : (
-            <>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Name" required>
-                  <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" placeholder="Jane Doe" />
-                </Field>
-                <Field label="Email" required={method === "email"}>
-                  <input type="email" required={method === "email"} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input" placeholder="you@email.com" />
-                </Field>
-                <Field label="Phone" required={method !== "email"}>
-                  <input type="tel" required={method !== "email"} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="(865) 555-0123" />
-                </Field>
-                <Field label="Preferred contact">
-                  <div className="flex gap-2">
-                    {(["email", "text", "call"] as const).map((m) => (
-                      <button
-                        type="button"
-                        key={m}
-                        onClick={() => setMethod(m)}
-                        className={`flex-1 rounded-lg border px-3 py-2 text-sm font-semibold capitalize transition ${
-                          method === m ? "border-leaf-deep bg-leaf-deep text-cream" : "border-border bg-background hover:border-leaf"
-                        }`}
-                      >
-                        {m}
-                      </button>
-                    ))}
-                  </div>
-                </Field>
-              </div>
-
-              <Field label="Tell us about your yard">
-                <textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input" placeholder="Lot size, what you need, anything special…" />
-              </Field>
-
-              {needsTextConsent && (
-                <ConsentBox
-                  checked={form.consentText}
-                  onChange={(v) => setForm({ ...form, consentText: v })}
-                  title="Permission to text"
-                  body="By checking this box, I expressly consent to receive SMS text messages from Rivenbark Lawncare at the phone number provided, including messages sent by automated means. Consent is not a condition of any purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time, or HELP for help."
-                />
-              )}
-              {needsCallConsent && (
-                <ConsentBox
-                  checked={form.consentCall}
-                  onChange={(v) => setForm({ ...form, consentCall: v })}
-                  title="Permission to call"
-                  body="By checking this box, I expressly consent to receive telephone calls from Rivenbark Lawncare at the phone number provided, including calls placed using an automatic telephone dialing system or an artificial or prerecorded voice. Consent is not a condition of any purchase. I understand I may revoke this consent at any time by asking to be removed from the call list."
-                />
-              )}
-
-              <button type="submit" className="mt-6 w-full rounded-full bg-leaf-deep px-6 py-4 font-bold text-cream shadow-md transition hover:bg-leaf">
-                Send Message
-              </button>
-              <p className="mt-3 text-center text-xs text-ink/55">We never share your information. Used only to reply to your request.</p>
-            </>
-          )}
-        </form>
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
+          <QuoteForm />
+        </div>
       </div>
     </section>
   );
 }
+
+function QuoteForm({ onDone }: { onDone?: () => void } = {}) {
+  const [method, setMethod] = useState<"email" | "text" | "call">("email");
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", consentText: false, consentCall: false });
+
+  const needsTextConsent = method === "text";
+  const needsCallConsent = method === "call";
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (needsTextConsent && !form.consentText) return;
+    if (needsCallConsent && !form.consentCall) return;
+    setSubmitted(true);
+    onDone?.();
+  };
+
+  if (submitted) {
+    return (
+      <div className="py-12 text-center">
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-leaf-deep text-3xl text-cream">✓</div>
+        <h3 className="mt-4 text-2xl">Thanks — we got it!</h3>
+        <p className="mt-2 text-ink/65">We'll reach out via your preferred method shortly.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Name" required>
+          <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" placeholder="Jane Doe" />
+        </Field>
+        <Field label="Email" required={method === "email"}>
+          <input type="email" required={method === "email"} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input" placeholder="you@email.com" />
+        </Field>
+        <Field label="Phone" required={method !== "email"}>
+          <input type="tel" required={method !== "email"} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="(865) 555-0123" />
+        </Field>
+        <Field label="Preferred contact">
+          <div className="flex gap-2">
+            {(["email", "text", "call"] as const).map((m) => (
+              <button
+                type="button"
+                key={m}
+                onClick={() => setMethod(m)}
+                className={`flex-1 rounded-lg border px-3 py-2 text-sm font-semibold capitalize transition ${
+                  method === m ? "border-leaf-deep bg-leaf-deep text-cream" : "border-border bg-background hover:border-leaf"
+                }`}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+        </Field>
+      </div>
+
+      <Field label="Tell us about your yard">
+        <textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input" placeholder="Lot size, what you need, anything special…" />
+      </Field>
+
+      {needsTextConsent && (
+        <ConsentBox
+          checked={form.consentText}
+          onChange={(v) => setForm({ ...form, consentText: v })}
+          title="Permission to text"
+          body="By checking this box, I expressly consent to receive SMS text messages from Rivenbark Lawncare at the phone number provided, including messages sent by automated means. Consent is not a condition of any purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time, or HELP for help."
+        />
+      )}
+      {needsCallConsent && (
+        <ConsentBox
+          checked={form.consentCall}
+          onChange={(v) => setForm({ ...form, consentCall: v })}
+          title="Permission to call"
+          body="By checking this box, I expressly consent to receive telephone calls from Rivenbark Lawncare at the phone number provided, including calls placed using an automatic telephone dialing system or an artificial or prerecorded voice. Consent is not a condition of any purchase. I understand I may revoke this consent at any time by asking to be removed from the call list."
+        />
+      )}
+
+      <button type="submit" className="mt-6 w-full rounded-full bg-leaf-deep px-6 py-4 font-bold text-cream shadow-md transition hover:bg-leaf">
+        Send Message
+      </button>
+      <p className="mt-3 text-center text-xs text-ink/55">We never share your information. Used only to reply to your request.</p>
+    </form>
+  );
+}
+
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
