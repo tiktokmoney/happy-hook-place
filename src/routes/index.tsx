@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import logoAsset from "@/assets/logo.png.asset.json";
 import lawn1 from "@/assets/lawn1.png.asset.json";
 import lawn2 from "@/assets/lawn2.png.asset.json";
@@ -9,6 +10,10 @@ import lawn4 from "@/assets/lawn4.png.asset.json";
 export const Route = createFileRoute("/")({
   component: Home,
 });
+
+const QuoteDialogCtx = createContext<{ open: () => void }>({ open: () => {} });
+const useQuoteDialog = () => useContext(QuoteDialogCtx);
+
 
 const NAV = [
   { id: "home", label: "Home" },
