@@ -288,9 +288,10 @@ function Hero() {
             Rivenbark Lawncare provides professional mowing, weeding, and lawn care. Our experts make sure your lawn is beautifully manicured — a well-kept, attractive outdoor space to enjoy.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
+            <button type="button" onClick={openQuote} className="rounded-full bg-leaf-deep px-6 py-3 font-bold text-cream shadow-md transition hover:bg-leaf">
               Request a Free Quote
-            </a>
+            </button>
+
             <a href="tel:+18652500515" className="rounded-full border-2 border-ink/10 bg-white px-6 py-3 font-bold text-ink transition hover:border-ink/30">
               (865) 250-0515
             </a>
