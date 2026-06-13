@@ -714,6 +714,7 @@ function FAQ() {
 }
 
 function CTABand() {
+  const { open: openQuote } = useQuoteDialog();
   return (
     <section className="relative overflow-hidden bg-ink py-20 text-cream">
       <div className="sun-glow absolute inset-0 opacity-50" />
@@ -727,9 +728,10 @@ function CTABand() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row md:flex-col md:items-end">
-          <a href="#contact" className="rounded-full bg-sun px-6 py-3 text-center font-bold text-ink shadow-md transition hover:bg-sun-deep">
+          <button type="button" onClick={openQuote} className="rounded-full bg-sun px-6 py-3 text-center font-bold text-ink shadow-md transition hover:bg-sun-deep">
             Request a Free Quote
-          </a>
+          </button>
+
           <a href="tel:+18652500515" className="rounded-full border-2 border-cream/30 px-6 py-3 text-center font-bold text-cream transition hover:bg-cream/10">
             Call (865) 250-0515
           </a>
