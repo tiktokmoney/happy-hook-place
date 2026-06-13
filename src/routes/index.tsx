@@ -581,12 +581,14 @@ function TrustBand() {
 }
 
 function Process() {
+  const { open: openQuote } = useQuoteDialog();
   const steps = [
     { n: "01", t: "Reach out", d: "Send a quick message or give us a call — tell us about your yard." },
     { n: "02", t: "Free quote", d: "We'll get back same-day with fair, upfront pricing. No surprises." },
     { n: "03", t: "We mow", d: "Show up on schedule, do the small details right, leave it looking great." },
   ];
   return (
+
     <section className="relative bg-secondary/60 pt-4 pb-20">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="How it works" title="Three steps. No headaches." />
