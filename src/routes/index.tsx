@@ -60,7 +60,15 @@ function Home() {
 
 function Nav() {
   const [open, setOpen] = useState(false);
+  const { open: openQuote } = useQuoteDialog();
+  const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", `#${id}`);
+  };
   return (
+
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="mx-auto grid max-w-6xl grid-cols-[auto_auto] items-center gap-4 px-5 py-3 sm:px-8 md:grid-cols-[auto_1fr_auto] md:gap-8 md:py-4">
         <a href="#home" className="flex items-center">
