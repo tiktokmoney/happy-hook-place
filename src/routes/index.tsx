@@ -6,6 +6,10 @@ import lawn1 from "@/assets/lawn1.png.asset.json";
 import lawn2 from "@/assets/lawn2.png.asset.json";
 import lawn3 from "@/assets/lawn3.png.asset.json";
 import lawn4 from "@/assets/lawn4.png.asset.json";
+import during1 from "@/assets/during-1.jpeg.asset.json";
+import after1 from "@/assets/after-1.jpeg.asset.json";
+import during2 from "@/assets/during-2.jpeg.asset.json";
+import after2 from "@/assets/after-2.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -36,6 +40,7 @@ function Home() {
         <About />
         <Testimonials />
         <Work />
+        <BeforeAfter />
         <ServiceArea />
         <FAQ />
         <CTABand />
@@ -396,6 +401,43 @@ function Work() {
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-4 text-xs font-semibold uppercase tracking-widest">
                 Kingston, TN
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeforeAfter() {
+  const pairs = [
+    { before: during1, after: after1, label: "Backyard clean-up — Kingston, TN" },
+    { before: during2, after: after2, label: "Overgrown front lawn — Kingston, TN" },
+  ];
+  return (
+    <section id="before-after" className="relative bg-cream py-20">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionHeader eyebrow="Before & After" title="See the difference a cut makes." />
+        <div className="mt-12 grid gap-10 md:grid-cols-2">
+          {pairs.map((p, i) => (
+            <div key={i} className="rounded-3xl border border-border bg-background p-4 shadow-lg sm:p-5">
+              <div className="grid grid-cols-2 gap-3">
+                <figure className="relative overflow-hidden rounded-2xl">
+                  <img src={p.before.url} alt="Lawn before mowing" className="aspect-[3/4] w-full object-cover" />
+                  <figcaption className="absolute left-3 top-3 rounded-full bg-ink/80 px-3 py-1 text-xs font-bold uppercase tracking-widest text-cream">
+                    Before
+                  </figcaption>
+                </figure>
+                <figure className="relative overflow-hidden rounded-2xl">
+                  <img src={p.after.url} alt="Lawn after mowing" className="aspect-[3/4] w-full object-cover" />
+                  <figcaption className="absolute left-3 top-3 rounded-full bg-leaf-deep px-3 py-1 text-xs font-bold uppercase tracking-widest text-cream">
+                    After
+                  </figcaption>
+                </figure>
+              </div>
+              <p className="mt-4 text-center text-sm font-semibold uppercase tracking-widest text-ink/60">
+                {p.label}
+              </p>
             </div>
           ))}
         </div>
