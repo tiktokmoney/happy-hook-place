@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createContext, useContext, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logoAsset from "@/assets/logo.png.asset.json";
 import lawn1 from "@/assets/lawn1.png.asset.json";
@@ -507,23 +506,30 @@ function QuoteForm({ onDone }: { onDone?: () => void } = {}) {
     if (needsTextConsent && !form.consentText) return;
     if (needsCallConsent && !form.consentCall) return;
     setSubmitting(true);
-    const { error } = await supabase.from("leads").insert({
-      name: form.name.trim(),
-      email: form.email.trim() || null,
-      phone: form.phone.trim() || null,
-      preferred_contact: method,
-      message: form.message.trim() || null,
-      consent_text: form.consentText,
-      consent_call: form.consentCall,
-      source: "website",
-    });
-    setSubmitting(false);
-    if (error) {
+    try {
+      const res = await fetch("/api/public/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          preferred_contact: method,
+          message: form.message.trim(),
+          consent_text: form.consentText,
+          consent_call: form.consentCall,
+          source: "website",
+        }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      setSubmitted(true);
+      onDone?.();
+    } catch (err) {
+      console.error(err);
       toast.error("Something went wrong. Please call (865) 250-0515.");
-      return;
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitted(true);
-    onDone?.();
   };
 
   if (submitted) {
