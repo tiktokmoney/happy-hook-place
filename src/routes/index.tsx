@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createContext, useContext, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import logoAsset from "@/assets/logo.png.asset.json";
 import lawn1 from "@/assets/lawn1.png.asset.json";
 import lawn2 from "@/assets/lawn2.png.asset.json";
@@ -494,15 +496,32 @@ function Contact() {
 function QuoteForm({ onDone }: { onDone?: () => void } = {}) {
   const [method, setMethod] = useState<"email" | "text" | "call">("email");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", consentText: false, consentCall: false });
 
   const needsTextConsent = method === "text";
   const needsCallConsent = method === "call";
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (needsTextConsent && !form.consentText) return;
     if (needsCallConsent && !form.consentCall) return;
+    setSubmitting(true);
+    const { error } = await supabase.from("leads").insert({
+      name: form.name.trim(),
+      email: form.email.trim() || null,
+      phone: form.phone.trim() || null,
+      preferred_contact: method,
+      message: form.message.trim() || null,
+      consent_text: form.consentText,
+      consent_call: form.consentCall,
+      source: "website",
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Something went wrong. Please call (865) 250-0515.");
+      return;
+    }
     setSubmitted(true);
     onDone?.();
   };
@@ -568,8 +587,8 @@ function QuoteForm({ onDone }: { onDone?: () => void } = {}) {
         />
       )}
 
-      <button type="submit" className="mt-6 w-full rounded-full bg-leaf-deep px-6 py-4 font-bold text-cream shadow-md transition hover:bg-leaf">
-        Send Message
+      <button type="submit" disabled={submitting} className="mt-6 w-full rounded-full bg-leaf-deep px-6 py-4 font-bold text-cream shadow-md transition hover:bg-leaf disabled:opacity-60">
+        {submitting ? "Sending…" : "Send Message"}
       </button>
       <p className="mt-3 text-center text-xs text-ink/55">We never share your information. Used only to reply to your request.</p>
     </form>
