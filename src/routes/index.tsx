@@ -715,7 +715,7 @@ function Testimonials() {
 }
 
 function ServiceArea() {
-  const cities = ["Kingston", "Harriman", "Rockwood", "Lenoir City", "Oak Ridge", "Loudon", "Farragut", "Oliver Springs"];
+  const cities = ["Kingston", "Harriman", "Rockwood", "Lenoir City"];
   return (
     <section className="relative py-20">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[1fr_1.2fr] md:items-center">
