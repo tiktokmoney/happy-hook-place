@@ -36,12 +36,12 @@ function Home() {
         <Nav />
         <Hero />
         <TrustBand />
+        <BeforeAfter />
         <Services />
         <Process />
         <About />
         <Testimonials />
         <Work />
-        <BeforeAfter />
         <ServiceArea />
         <FAQ />
         <CTABand />
