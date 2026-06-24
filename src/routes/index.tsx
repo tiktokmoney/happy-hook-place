@@ -7,10 +7,14 @@ import lawn1 from "@/assets/lawn1.png.asset.json";
 import lawn2 from "@/assets/lawn2.png.asset.json";
 import lawn3 from "@/assets/lawn3.png.asset.json";
 import lawn4 from "@/assets/lawn4.png.asset.json";
-import during1 from "@/assets/during-1.jpeg.asset.json";
+import before1 from "@/assets/before-1.jpeg.asset.json";
 import after1 from "@/assets/after-1.jpeg.asset.json";
-import during2 from "@/assets/during-2.jpeg.asset.json";
+import before2 from "@/assets/before-2.jpeg.asset.json";
 import after2 from "@/assets/after-2.jpeg.asset.json";
+import before3 from "@/assets/before-3.jpeg.asset.json";
+import after3 from "@/assets/after-3.jpeg.asset.json";
+import before4 from "@/assets/before-4.jpeg.asset.json";
+import after4 from "@/assets/after-4.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Home,
