@@ -416,8 +416,10 @@ function Work() {
 
 function BeforeAfter() {
   const pairs = [
-    { before: during1, after: after1, label: "Backyard clean-up — Kingston, TN" },
-    { before: during2, after: after2, label: "Overgrown front lawn — Kingston, TN" },
+    { before: before1, after: after1, label: "Under-deck overgrowth — Kingston, TN" },
+    { before: before2, after: after2, label: "Shaded backyard reset — Kingston, TN" },
+    { before: before3, after: after3, label: "Flower bed refresh — Kingston, TN" },
+    { before: before4, after: after4, label: "Brush & weed clearing — Kingston, TN" },
   ];
   return (
     <section id="before-after" className="relative bg-cream py-20">
