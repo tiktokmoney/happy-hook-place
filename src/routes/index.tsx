@@ -394,15 +394,16 @@ function About() {
 }
 
 function Work() {
-  const photos = [lawn1, lawn4, lawn3, lawn2];
   return (
     <section id="work" className="relative bg-ink py-20 text-cream">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="Our work" title="Real yards. Real results." invert />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {photos.map((p, i) => (
-            <div key={i} className={`group relative overflow-hidden rounded-2xl ${i % 2 ? "lg:translate-y-6" : ""}`}>
-              <img src={p.url} alt={`Recent lawncare job ${i + 1}`} className="aspect-[3/4] w-full object-cover transition duration-500 group-hover:scale-105" />
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className={`group relative overflow-hidden rounded-2xl border border-dashed border-cream/20 bg-cream/5 ${i % 2 ? "lg:translate-y-6" : ""}`}>
+              <div className="grid aspect-[3/4] w-full place-items-center">
+                <span className="text-sm font-semibold uppercase tracking-widest text-cream/50">Coming Soon</span>
+              </div>
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-4 text-xs font-semibold uppercase tracking-widest">
                 Kingston, TN
               </div>
