@@ -15,6 +15,9 @@ import before3 from "@/assets/before-3.jpeg.asset.json";
 import after3 from "@/assets/after-3.jpeg.asset.json";
 import before4 from "@/assets/before-4.jpeg.asset.json";
 import after4 from "@/assets/after-4.jpeg.asset.json";
+import yard1 from "@/assets/yard-1.jpeg.asset.json";
+import yard2 from "@/assets/yard-2.jpeg.asset.json";
+import yard3 from "@/assets/yard-3.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Home,
