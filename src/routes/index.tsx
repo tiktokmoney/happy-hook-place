@@ -401,12 +401,10 @@ function Work() {
     <section id="work" className="relative bg-ink py-20 text-cream">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader eyebrow="Our work" title="Real yards. Real results." invert />
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[0, 1, 2, 3].map((i) => (
-            <div key={i} className={`group relative overflow-hidden rounded-2xl border border-dashed border-cream/20 bg-cream/5 ${i % 2 ? "lg:translate-y-6" : ""}`}>
-              <div className="grid aspect-[3/4] w-full place-items-center">
-                <span className="text-sm font-semibold uppercase tracking-widest text-cream/50">Coming Soon</span>
-              </div>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[yard1, yard2, yard3].map((img, i) => (
+            <div key={i} className={`group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/5 ${i % 2 ? "lg:translate-y-6" : ""}`}>
+              <img src={img.url} alt={`Freshly mowed yard ${i + 1} in Kingston, TN`} className="aspect-[3/4] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-4 text-xs font-semibold uppercase tracking-widest">
                 Kingston, TN
               </div>
